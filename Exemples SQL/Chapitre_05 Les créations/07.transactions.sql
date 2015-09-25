@@ -1,0 +1,50 @@
+BEGIN TRY
+	BEGIN TRANSACTION;
+
+	DELETE FROM LigneCommandes
+	WHERE CommandeId IN (
+		SELECT CommandeId
+		FROM Commande
+		WHERE ClientId = 'ALFKI');
+
+	DELETE FROM Commande
+	WHERE ClientId = 'ALFKI';
+
+	DELETE FROM Client
+	WHERE ClientId = 'ALFKI';
+
+	COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+	SELECT ERROR_MESSAGE()
+	ROLLBACK TRANSACTION
+END CATCH
+
+/*
+-Atomique
+-Cohérente
+-Isolée
+-Durable
+*/
+
+/* -- Oracle
+BEGIN
+	DELETE FROM LigneCommandes
+	WHERE CommandeId IN (
+		SELECT CommandeId
+		FROM Commande
+		WHERE ClientId = 'ALFKI');
+
+	DELETE FROM Commande
+	WHERE ClientId = 'ALFKI';
+
+	DELETE FROM Client
+	WHERE ClientId = 'ALFKI';
+EXCEPTION
+	WHEN ZERO_DIVIDE THEN
+		ROLLBACK;
+	WHEN OTHERS THEN
+		ROLLBACK;
+
+END;
+*/

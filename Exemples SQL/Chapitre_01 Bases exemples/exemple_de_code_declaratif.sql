@@ -1,0 +1,4 @@
+SELECT nom
+FROM noms
+WHERE nom IS NOT NULL
+ORDER BY NOM
