@@ -1,5 +1,5 @@
 
-
+-- les fonctions et formats date
 
 SELECT DateCommande, 
 	YEAR(DateCommande) as Annee,
